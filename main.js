@@ -18,7 +18,8 @@ function addCountry(country) {
     fetch(url)
         .then(response => response.json())
         .then(data => {
-            const info = data[0];
+            const info = data[fixedData(data, country)];
+            console.log(info);
             const {
                 name,
                 flags,
@@ -44,4 +45,19 @@ function addCountry(country) {
             alert("country not found");
             console.log(err);
         })
+}
+
+
+function fixedData(dataArr, countryName) {
+    let trueIndex=0
+    dataArr.forEach((item, index) => {
+        Object.values(item.name).forEach(countryNamesItem => {
+            console.log(typeof countryNamesItem);
+            console.log(typeof countryName);
+            if ((typeof countryNamesItem == "string") && countryNamesItem.toUpperCase() == countryName.toUpperCase()) {
+                trueIndex = index;
+            }
+        })
+    });
+    return trueIndex;
 }
